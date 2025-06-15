@@ -7,13 +7,14 @@ const session = require("@fastify/session");
 
 // --- CONFIGURATION ---
 
-// 1. Register Fastify plugins for session management
-fastify.register(cookie);
-fastify.register(session, {
-  secret: process.env.SESSION_SECRET, // From Render environment variables
-  cookie: { secure: true }, // 'true' is important for HTTPS
-  saveUninitialized: false,
-  resave: false,
+// 1. Register Fastify plugins, ensuring cookie is loaded before session
+fastify.register(cookie).then(() => {
+  fastify.register(session, {
+    secret: process.env.SESSION_SECRET, // From Render environment variables
+    cookie: { secure: true }, // 'true' is important for HTTPS
+    saveUninitialized: false,
+    resave: false,
+  });
 });
 
 // 2. Configure the Google OAuth2 client
