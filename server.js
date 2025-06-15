@@ -20,7 +20,7 @@ fastify.register(session, {
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,    // From Render environment variables
   process.env.GOOGLE_CLIENT_SECRET, // From Render environment variables
-  `https://your-app-name.onrender.com/auth/google/callback` // IMPORTANT: Change this!
+  `https://my-render-agent.onrender.com/auth/google/callback` // IMPORTANT: Change this!
 );
 
 // 3. Define the permissions (scopes) we need from the user
