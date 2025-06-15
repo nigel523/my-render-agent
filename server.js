@@ -6,15 +6,16 @@ const cookie = require("@fastify/cookie");
 const session = require("@fastify/session");
 const fastifyStatic = require("@fastify/static");
 
-// This function will contain our entire server setup and start logic
+// This is the main function that sets up and starts the server
 const start = async () => {
   try {
     // --- PLUGIN REGISTRATION ---
-    // We use 'await' to ensure each plugin finishes loading before the next one starts.
+    // We use 'await' to ensure each plugin finishes loading before the next.
+    // This is the critical part that fixes the error.
     await fastify.register(cookie);
     await fastify.register(session, {
       secret: process.env.SESSION_SECRET,
-      cookie: { secure: true, maxAge: 86400000 }, // 1 day
+      cookie: { secure: true, maxAge: 86400000 }, // Sets cookie to expire in 1 day
       saveUninitialized: false,
       resave: false,
     });
@@ -26,7 +27,7 @@ const start = async () => {
     const oauth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
-      `https://my-render-agent.onrender.com/auth/google/callback` // IMPORTANT: Change this!
+      "https://my-render-agent.onrender.com/auth/google/callback" // Your URL is here
     );
 
     const scopes = [
@@ -63,7 +64,6 @@ const start = async () => {
     });
 
     // --- START THE SERVER ---
-    // This line will only run after all the 'await' calls above are complete.
     await fastify.listen({ port: process.env.PORT || 3000, host: "0.0.0.0" });
     
   } catch (err) {
