@@ -1,0 +1,16 @@
+{
+  "name": "my-render-agent",
+  "version": "1.0.0",
+  "description": "An AI agent to interact with Google Docs.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.26.2",
+    "@fastify/static": "^7.0.4"
+  },
+  "engines": {
+    "node": "18"
+  }
+}
